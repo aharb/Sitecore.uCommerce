@@ -1,0 +1,4 @@
+repo: ad4141d803468323621871bb00c88e6e5ea74428
+node: f7f9687fcd9a91e5dba701e0edfc8c0a5695b7d9
+branch: default
+tag: Clean VS2013

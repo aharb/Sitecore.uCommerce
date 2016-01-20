@@ -1,0 +1,20 @@
+﻿@using System.Web.Mvc.Html
+@model UCommerce.MasterClass.Website.Models.PaymentViewModel
+@{
+    Layout = "Layout.cshtml";
+}
+
+<h1>Your basket</h1>
+
+<form method="POST">
+    
+    @foreach (var paymentMethod in Model.AvailablePaymentMethods)
+    {
+        <div>
+            @Html.RadioButtonFor(x => x.SelectedPaymentMethodId, paymentMethod.Value) <label>@paymentMethod.Text</label>
+        </div>
+
+    }
+
+    <input type="submit" value="Update and continue"/>
+</form>

@@ -1,0 +1,24 @@
+﻿@using System.Collections
+@using System.Collections.Generic
+@using System.Web.UI
+@using UCommerce.MasterClass.Website.Models
+@model UCommerce.MasterClass.Website.Models.CategoryViewModel
+@{
+    Layout = "Layout.cshtml";
+
+}
+
+<h1>@Model.Name</h1>
+
+<span>@Html.Raw(Model.Description)</span>
+
+@foreach (ProductViewModel product in Model.Products)
+{
+    <div>
+        <span>@product.Name</span>
+        <span>@product.PriceCalculation.YourPrice.Amount</span>
+        <a href="@product.Url">More info</a>
+    </div>
+}
+
+

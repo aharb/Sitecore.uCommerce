@@ -1,0 +1,36 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link href="/css/ucommerce.bootstrap.css" rel="stylesheet">
+        <link href="/css/ucommerce.bootstrap-responsive.css" rel="stylesheet">
+        <script src="~/Bootstrap/bootstrap-3.3.6-dist/js/jQuery.js"></script>
+        <script src="/scripts/ucommerce.bootstrap.js"> </script>
+        <script src="/scripts/uCommerce.jQuery.js"></script>
+        <script src="/scripts/uCommerce.ServiceStack.js"></script>
+        <link href="~/Bootstrap/bootstrap-3.3.6-dist/css/Styles.css" rel="stylesheet" />
+    </head>
+<body>
+    <div class="container-fluid">
+        <div class="mini-basket">
+            <i class="icon-shopping-cart icon-white"></i>
+            <a href="/store/basket">Basket</a>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                @{ Html.RenderAction("CategoryNavigation", "PartialView"); }
+            </div>
+            <div class="span9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>

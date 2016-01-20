@@ -1,0 +1,21 @@
+﻿@using System.Web.Mvc.Html
+@model UCommerce.MasterClass.Website.Models.ShippingViewModel
+@{
+    Layout = "Layout.cshtml";
+}
+
+<form method="POST">
+    <div class="well">
+        <legend>Available shipping methods</legend>
+        @foreach (var shippingMethod in Model.AvailableShippingMethods)
+        {
+            <div>
+                @Html.RadioButtonFor(x => x.SelectedShippingMethodId, shippingMethod.Value) <label>@shippingMethod.Text</label>
+            </div>
+        }
+    </div>
+    
+    <input type="submit" value="Update and continue"/>
+
+</form>
+
