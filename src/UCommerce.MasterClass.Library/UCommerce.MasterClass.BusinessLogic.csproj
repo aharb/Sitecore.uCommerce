@@ -69,6 +69,7 @@
     <Compile Include="Integration\SingleUserService.cs" />
     <Compile Include="Logging\ConsoleLoggingService.cs" />
     <Compile Include="Mappings\NHibernateMappingTag.cs" />
+    <Compile Include="Queries\ProductByPropertiesQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\LatestOrderQuery.cs" />
     <Compile Include="WebServices\WebServiceTag.cs" />

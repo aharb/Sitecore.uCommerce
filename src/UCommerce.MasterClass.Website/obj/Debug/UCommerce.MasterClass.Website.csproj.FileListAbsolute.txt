@@ -30,3 +30,4 @@ C:\Projects\Sitecore.uCommerce\src\UCommerce.Masterclass.Website\bin\UCommerce.M
 C:\Projects\Sitecore.uCommerce\src\UCommerce.Masterclass.Website\obj\Debug\UCommerce.MasterClass.Website.csprojResolveAssemblyReference.cache
 C:\Projects\Sitecore.uCommerce\src\UCommerce.Masterclass.Website\obj\Debug\UCommerce.MasterClass.Website.dll
 C:\Projects\Sitecore.uCommerce\src\UCommerce.Masterclass.Website\obj\Debug\UCommerce.MasterClass.Website.pdb
+C:\Projects\Sitecore.uCommerce\src\UCommerce.Masterclass.Website\bin\FluentNHibernate.dll
