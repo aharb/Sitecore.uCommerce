@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using UCommerce.Api;
 using UCommerce.EntitiesV2;
 using UCommerce.Extensions;
-using UCommerce.Infrastructure.Runtime;
 using UCommerce.MasterClass.Website.Models;
 using UCommerce.Runtime;
+using UCommerce.EntitiesV2;
+using UCommerce.Api;
 
 namespace UCommerce.MasterClass.Website.Controllers
 {
@@ -16,15 +17,10 @@ namespace UCommerce.MasterClass.Website.Controllers
     {
         public ActionResult Index()
         {
-            ProductViewModel productModel = MapProduct(UCommerce.Runtime.SiteContext.Current.CatalogContext.CurrentProduct);
-            return View("/views/product.cshtml", productModel);
-        }
+            var currentProduct = UCommerce.Runtime.SiteContext.Current.CatalogContext.CurrentProduct;
+            ProductViewModel productModel = MapProduct(currentProduct);
 
-        [HttpPost]
-        public ActionResult Index(AddToBasketViewModel model)
-        {
-            UCommerce.Api.TransactionLibrary.AddToBasket(1, model.Sku, model.VariantSku);
-            return Index();
+            return View("/views/product.cshtml", productModel);
         }
 
         private ProductViewModel MapProduct(UCommerce.EntitiesV2.Product product)
@@ -35,13 +31,21 @@ namespace UCommerce.MasterClass.Website.Controllers
             productToReturn.LongDescription = product.LongDescription();
             productToReturn.Name = product.DisplayName();
             productToReturn.PriceCalculation = UCommerce.Api.CatalogLibrary.CalculatePrice(product);
-            productToReturn.Url = "/store/category/product?product=" + product.ProductId;
 
             foreach (var variant in product.Variants)
             {
                 productToReturn.Variants.Add(MapProduct(variant));
             }
+
             return productToReturn;
+
+        }
+
+        [HttpPost]
+        public ActionResult Index(AddToBasketViewModel model)
+        {
+            UCommerce.Api.TransactionLibrary.AddToBasket(1, model.Sku, model.VariantSku);
+            return Index();
         }
     }
 }

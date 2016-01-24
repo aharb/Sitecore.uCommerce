@@ -21,7 +21,6 @@ namespace UCommerce.MasterClass.Website.Controllers
             var basket = TransactionLibrary.GetBasket(false).PurchaseOrder;
 
             var basketModel = new PurchaseOrderViewModel();
-
             basketModel.OrderTotal = new Money(basket.OrderTotal.GetValueOrDefault(), basket.BillingCurrency).ToString();
             basketModel.SubTotal = new Money(basket.SubTotal.GetValueOrDefault(), basket.BillingCurrency).ToString();
             basketModel.ShippingTotal = new Money(basket.ShippingTotal.GetValueOrDefault(), basket.BillingCurrency).ToString();
@@ -41,13 +40,14 @@ namespace UCommerce.MasterClass.Website.Controllers
                     Total = new Money(orderLine.Total.GetValueOrDefault(), basket.BillingCurrency).ToString()
                 });
             }
+
             return basketModel;
         }
 
         [HttpPost]
         public ActionResult Post()
         {
-            UCommerce.Api.TransactionLibrary.RequestPayments();
+            TransactionLibrary.RequestPayments();
 
             return View("/Views/Complete.cshtml");
         }

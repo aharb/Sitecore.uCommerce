@@ -5,9 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using UCommerce.Api;
 using UCommerce.EntitiesV2;
-using UCommerce.Infrastructure.Runtime;
 using UCommerce.MasterClass.Website.Models;
-using UCommerce;
 
 namespace UCommerce.MasterClass.Website.Controllers
 {
@@ -16,31 +14,31 @@ namespace UCommerce.MasterClass.Website.Controllers
         public ActionResult Index()
         {
             var basketModel = MapBasket();
+            // send email
 
             return View("/Views/Basket.cshtml", basketModel);
         }
 
         private PurchaseOrderViewModel MapBasket()
         {
+
             UCommerce.EntitiesV2.PurchaseOrder uCommerceOrder = TransactionLibrary.GetBasket(false).PurchaseOrder;
-
             var basketModel = new PurchaseOrderViewModel();
-
             basketModel.OrderTotal = new UCommerce.Money(uCommerceOrder.OrderTotal.GetValueOrDefault(), uCommerceOrder.BillingCurrency).ToString();
 
-
-
-            foreach (var uCommerceOrderLine in uCommerceOrder.OrderLines)
+            foreach (var uCOmmerceOrderLine in uCommerceOrder.OrderLines)
             {
                 basketModel.OrderLines.Add(new OrderlineViewModel()
                 {
-                    OrderLineId = uCommerceOrderLine.OrderLineId,
-                    ProductName = uCommerceOrderLine.ProductName,
-                    Quantity = uCommerceOrderLine.Quantity,
-                    Sku = uCommerceOrderLine.Sku,
-                    VariantSku = uCommerceOrderLine.VariantSku,
-                    Total = new UCommerce.Money(uCommerceOrderLine.Total.GetValueOrDefault(), uCommerceOrder.BillingCurrency).ToString()
+                    OrderLineId = uCOmmerceOrderLine.OrderLineId,
+                    ProductName = uCOmmerceOrderLine.ProductName,
+                    Quantity = uCOmmerceOrderLine.Quantity,
+                    Sku = uCOmmerceOrderLine.Sku,
+                    VariantSku = uCOmmerceOrderLine.VariantSku,
+                    Total = new UCommerce.Money(uCOmmerceOrderLine.Total.GetValueOrDefault(),
+                        uCommerceOrder.BillingCurrency).ToString()
                 });
+
             }
 
             return basketModel;
@@ -51,14 +49,18 @@ namespace UCommerce.MasterClass.Website.Controllers
         {
             foreach (var orderLine in model.OrderLines)
             {
+
                 var newQuantity = orderLine.Quantity;
                 if (model.RemoveOrderlineId == orderLine.OrderLineId)
                 {
                     newQuantity = 0;
+
                     UCommerce.Api.TransactionLibrary.UpdateLineItem(orderLine.OrderLineId, newQuantity);
-                    UCommerce.Api.TransactionLibrary.ExecuteBasketPipeline();
                 }
+
             }
+
+            UCommerce.Api.TransactionLibrary.ExecuteBasketPipeline(); // everytime we modify the basket, execute pipeline
             return Index();
         }
     }

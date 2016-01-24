@@ -65,23 +65,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\PriceGroupControlFactory.cs" />
     <Compile Include="Integration\InMemoryCommerceConfigurationProvider.cs" />
     <Compile Include="Integration\SingleUserService.cs" />
     <Compile Include="Logging\ConsoleLoggingService.cs" />
     <Compile Include="Mappings\NHibernateMappingTag.cs" />
-    <Compile Include="Queries\ProductByPropertiesQuery.cs" />
+    <Compile Include="Pipelines\ExportOrderToErpSystem.cs" />
+    <Compile Include="Pipelines\MyPipeline.cs" />
+    <Compile Include="Pricing\ExtendedTaxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\LatestOrderQuery.cs" />
+    <Compile Include="Queries\OrderDataQuery.cs" />
+    <Compile Include="Queries\ProductByPropertiesQuery.cs" />
+    <Compile Include="Queries\ViewModels\OrderView.cs" />
+    <Compile Include="Shipping\QuantityShippingMthodService.cs" />
+    <Compile Include="SiteContext\ExtendedCatalogContext.cs" />
     <Compile Include="WebServices\WebServiceTag.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataTypes\" />
     <Folder Include="Mappings\Maps\" />
-    <Folder Include="Pipelines\" />
-    <Folder Include="Pricing\" />
-    <Folder Include="Queries\ViewModels\" />
-    <Folder Include="Shipping\" />
-    <Folder Include="SiteContext\" />
     <Folder Include="WebServices\Impl\" />
     <Folder Include="WebServices\Model\" />
   </ItemGroup>
