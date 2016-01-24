@@ -17,18 +17,18 @@ namespace UCommerce.MasterClass.Website.Controllers
             paymentModel.AvailablePaymentMethods = new List<SelectListItem>();
 
             var shippingCountry = TransactionLibrary.GetShippingInformation().Country;
-
             var payment = TransactionLibrary.GetBasket(false).PurchaseOrder.Payments.FirstOrDefault();
 
-            var avaiablePaymentmethods = TransactionLibrary.GetPaymentMethods(shippingCountry);
-
-            foreach (var availblePaymentMethod in avaiablePaymentmethods)
+            var availablePaymentMethods = TransactionLibrary.GetPaymentMethods(shippingCountry);
+            foreach (var availablePaymentMethod in availablePaymentMethods)
             {
                 paymentModel.AvailablePaymentMethods.Add(new SelectListItem()
                 {
-                    Selected = payment != null && payment.PaymentMethod.PaymentMethodId == availblePaymentMethod.PaymentMethodId,
-                    Text = availblePaymentMethod.Name,
-                    Value = availblePaymentMethod.PaymentMethodId.ToString()
+                    Selected = payment != null && payment.PaymentMethod.PaymentMethodId ==
+                    availablePaymentMethod.PaymentMethodId,
+                    Text = availablePaymentMethod.Name,
+                    Value = availablePaymentMethod.PaymentMethodId.ToString()
+
                 });
             }
 
@@ -38,8 +38,8 @@ namespace UCommerce.MasterClass.Website.Controllers
         [HttpPost]
         public ActionResult Index(PaymentViewModel payment)
         {
-            UCommerce.Api.TransactionLibrary.CreatePayment(payment.SelectedPaymentMethodId, requestPayment: false);
-            UCommerce.Api.TransactionLibrary.ExecuteBasketPipeline();
+            TransactionLibrary.CreatePayment(payment.SelectedPaymentMethodId, requestPayment: false);
+            TransactionLibrary.ExecuteBasketPipeline();
             return Redirect("/store/preview");
         }
 

@@ -7,7 +7,10 @@ using UCommerce.Api;
 using UCommerce.EntitiesV2;
 using UCommerce.Extensions;
 using UCommerce.MasterClass.Website.Models;
+using UCommerce.EntitiesV2;
 using UCommerce.Runtime;
+using UCommerce.Extensions;
+using UCommerce.Api;
 
 namespace UCommerce.MasterClass.Website.Controllers
 {
@@ -17,28 +20,29 @@ namespace UCommerce.MasterClass.Website.Controllers
 		{
 			var categoryViewModel = new CategoryViewModel();
 
-            var currentCaregory = UCommerce.Runtime.SiteContext.Current.CatalogContext.CurrentCategory;
+           UCommerce.EntitiesV2.Category currentUCommerceCategory = UCommerce.Runtime.SiteContext.Current.CatalogContext.CurrentCategory;
 
-            categoryViewModel.Name = currentCaregory.DisplayName();
-            categoryViewModel.Description = currentCaregory.Description();
-            categoryViewModel.Products = MapProducts(UCommerce.Api.CatalogLibrary.GetProducts(currentCaregory));
-            
+            categoryViewModel.Name = currentUCommerceCategory.DisplayName();
+            categoryViewModel.Description = currentUCommerceCategory.Description();
+            categoryViewModel.Products = MapProducts(UCommerce.Api.CatalogLibrary.GetProducts(currentUCommerceCategory));
+
 			return View("/views/category.cshtml",categoryViewModel);
 		}
 
-        private IList<ProductViewModel> MapProducts(ICollection<UCommerce.EntitiesV2.Product> uCommerceProducts)
+        private IList<ProductViewModel> MapProducts(ICollection<UCommerce.EntitiesV2.Product> uCommerceProductsToMap)
         {
             var productsToReturn = new List<ProductViewModel>();
 
-            foreach(var uCommerceProduct in uCommerceProducts)
-            {
+            foreach(var uCommerceProduct in uCommerceProductsToMap){
                 var productView = new ProductViewModel();
                 productView.Sku = uCommerceProduct.Sku;
+                productView.VariantSku = uCommerceProduct.VariantSku;
                 productView.Name = uCommerceProduct.DisplayName();
                 productView.LongDescription = uCommerceProduct.LongDescription();
+                productView.PriceCalculation =  UCommerce.Api.CatalogLibrary.CalculatePrice(uCommerceProduct);
+                productView.Url = "/store/category/product?product=" + uCommerceProduct.ProductId;
+                //productView.Url = CatalogLibrary.GetNiceUrlForProduct(uCommerceProduct);
                 productView.Variants = MapProducts(uCommerceProduct.Variants);
-                productView.PriceCalculation = UCommerce.Api.CatalogLibrary.CalculatePrice(uCommerceProduct);
-                productView.Url = "/store/product?product=" + uCommerceProduct.Id;
                 productsToReturn.Add(productView);
             }
 

@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using UCommerce.Api;
 using UCommerce.EntitiesV2;
-using UCommerce.Extensions;
 using UCommerce.MasterClass.Website.Models;
+using UCommerce.Api;
+using UCommerce.Extensions;
+
 
 namespace UCommerce.MasterClass.Website.Controllers
 {
@@ -15,26 +17,26 @@ namespace UCommerce.MasterClass.Website.Controllers
 		public ActionResult CategoryNavigation()
 		{
 			var categoryNavigation = new CategoryNavigationViewModel();
-            categoryNavigation.Categories = this.MapCategories(UCommerce.Api.CatalogLibrary.GetRootCategories());
+            categoryNavigation.Categories = MapUCommerceCategories(UCommerce.Api.CatalogLibrary.GetRootCategories());
 
 			return View("/views/PartialViews/CategoryNavigation.cshtml", categoryNavigation);
 		}
 
-        private IList<CategoryViewModel> MapCategories(ICollection<UCommerce.EntitiesV2.Category> categories)
+        private IList<CategoryViewModel> MapUCommerceCategories(ICollection <UCommerce.EntitiesV2.Category> uCommerceCategories)
         {
-            var cats = new List<CategoryViewModel>();
+            var categoriesToReturn = new List<CategoryViewModel>();
 
-            foreach(var cat in categories)
-            {
+            foreach(var uCommerceCategoryToMap in uCommerceCategories){
                 var categoryViewModel = new CategoryViewModel();
-                categoryViewModel.Name = cat.DisplayName();
-                categoryViewModel.Url ="/store/category?category=" +cat.CategoryId;
-                categoryViewModel.Categories = MapCategories(UCommerce.Api.CatalogLibrary.GetCategories(cat));
+                categoryViewModel.Name = uCommerceCategoryToMap.DisplayName();
+                categoryViewModel.Url = "/store/category?category=" + uCommerceCategoryToMap.CategoryId;
+                categoryViewModel.Categories = MapUCommerceCategories(UCommerce.Api.CatalogLibrary.GetCategories(uCommerceCategoryToMap));
 
-                cats.Add(categoryViewModel);
+                categoriesToReturn.Add(categoryViewModel);
             }
 
-            return cats;
+
+            return categoriesToReturn;
 
         }
 	}

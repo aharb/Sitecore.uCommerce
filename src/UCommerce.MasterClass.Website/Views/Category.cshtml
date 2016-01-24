@@ -10,7 +10,7 @@
 
 <h1>@Model.Name</h1>
 
-<span>@Html.Raw(Model.Description)</span>
+<span>@Html.Raw(@Model.Description)</span>
 
 @foreach (ProductViewModel product in Model.Products)
 {
